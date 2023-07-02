@@ -4,7 +4,7 @@ import { UniqueEntityId } from './unique-entity-id';
 export class Entity<Props> {
 	private _id: UniqueEntityId;
 
-	// O protected, diferente do private, é uma propriedade que pode ser acessada tanto pela própria classe e também por todas as classes que extende esse clase;
+	// O protected, diferente do private, é uma propriedade que pode ser acessada tanto pela própria classe e também por todas as classes que extende esse classe;
 	protected props: Props;
 
 	get id() {
