@@ -3,16 +3,22 @@ import { makeQuestion } from '../factories/make-question';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { InMemoryAnswerRepository } from '../in-memory/in-memory-answer-repository';
 import { InMemoryQuestionRepository } from '../in-memory/in-memory-question-repository';
+import { InMemoryAnswerAttachmentsRepository } from '../in-memory/in-memory-answer-attachments-repository';
+import { InMemoryQestionAttachmentsRepository } from '../in-memory/in-memory-question-attachments-repository';
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer-use-case';
 
 let answerRepository: InMemoryAnswerRepository;
 let questionRepository: InMemoryQuestionRepository;
+let answerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
 let chooseQuestionBestAnswerUseCase: ChooseQuestionBestAnswerUseCase;
+let questionAttachmentsRepository: InMemoryQestionAttachmentsRepository;
 
 describe('Choose Question Best Answer', () => {
 	beforeEach(() => {
-		answerRepository = new InMemoryAnswerRepository();
-		questionRepository = new InMemoryQuestionRepository();
+		answerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
+		questionAttachmentsRepository = new InMemoryQestionAttachmentsRepository();
+		answerRepository = new InMemoryAnswerRepository(answerAttachmentsRepository);
+		questionRepository = new InMemoryQuestionRepository(questionAttachmentsRepository);
 		chooseQuestionBestAnswerUseCase = new ChooseQuestionBestAnswerUseCase(questionRepository, answerRepository);
 	});
 

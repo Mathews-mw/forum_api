@@ -1,13 +1,16 @@
 import { makeQuestion } from '../factories/make-question';
 import { InMemoryQuestionRepository } from '../in-memory/in-memory-question-repository';
+import { InMemoryQestionAttachmentsRepository } from '../in-memory/in-memory-question-attachments-repository';
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions-use-case';
 
 let questionRepository: InMemoryQuestionRepository;
 let fetchRecentQuestionsUseCase: FetchRecentQuestionsUseCase;
+let questionAttachmentsRepository: InMemoryQestionAttachmentsRepository;
 
 describe('Fetch Recente Questions', () => {
 	beforeEach(() => {
-		questionRepository = new InMemoryQuestionRepository();
+		questionAttachmentsRepository = new InMemoryQestionAttachmentsRepository();
+		questionRepository = new InMemoryQuestionRepository(questionAttachmentsRepository);
 		fetchRecentQuestionsUseCase = new FetchRecentQuestionsUseCase(questionRepository);
 	});
 
@@ -16,9 +19,9 @@ describe('Fetch Recente Questions', () => {
 		await questionRepository.create(makeQuestion({ createdAt: new Date(2023, 2, 11) }));
 		await questionRepository.create(makeQuestion({ createdAt: new Date(2023, 2, 14) }));
 
-		const { questions } = await fetchRecentQuestionsUseCase.execute({ page: 1 });
+		const result = await fetchRecentQuestionsUseCase.execute({ page: 1 });
 
-		expect(questions).toEqual([
+		expect(result).toEqual([
 			expect.objectContaining({ createdAt: new Date(2023, 2, 10) }),
 			expect.objectContaining({ createdAt: new Date(2023, 2, 11) }),
 			expect.objectContaining({ createdAt: new Date(2023, 2, 14) }),
@@ -30,8 +33,8 @@ describe('Fetch Recente Questions', () => {
 			await questionRepository.create(makeQuestion());
 		}
 
-		const { questions } = await fetchRecentQuestionsUseCase.execute({ page: 2 });
+		const result = await fetchRecentQuestionsUseCase.execute({ page: 2 });
 
-		expect(questions).toHaveLength(2);
+		expect(result.value?.questions).toHaveLength(2);
 	});
 });

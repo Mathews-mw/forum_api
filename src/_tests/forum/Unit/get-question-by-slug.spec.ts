@@ -1,16 +1,17 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id';
-import { Question } from '@/domain/forum/enterprise/entities/question';
+import { makeQuestion } from '../factories/make-question';
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug';
 import { InMemoryQuestionRepository } from '../in-memory/in-memory-question-repository';
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug';
-import { makeQuestion } from '../factories/make-question';
+import { InMemoryQestionAttachmentsRepository } from '../in-memory/in-memory-question-attachments-repository';
 
 let questionRepository: InMemoryQuestionRepository;
 let getQuestionBySlugUseCase: GetQuestionBySlugUseCase;
+let questionAttachmentsRepository: InMemoryQestionAttachmentsRepository;
 
 describe('Get Question by Slug', () => {
 	beforeEach(() => {
-		questionRepository = new InMemoryQuestionRepository();
+		questionAttachmentsRepository = new InMemoryQestionAttachmentsRepository();
+		questionRepository = new InMemoryQuestionRepository(questionAttachmentsRepository);
 		getQuestionBySlugUseCase = new GetQuestionBySlugUseCase(questionRepository);
 	});
 
@@ -19,9 +20,12 @@ describe('Get Question by Slug', () => {
 
 		await questionRepository.create(newQuestion);
 
-		const { question } = await getQuestionBySlugUseCase.execute({ slug: 'example-question' });
+		const result = await getQuestionBySlugUseCase.execute({ slug: 'example-question' });
 
-		expect(question.id).toBeTruthy();
-		expect(question.title).toEqual(newQuestion.title);
+		expect(result.value).toMatchObject({
+			question: expect.objectContaining({
+				title: newQuestion.title,
+			}),
+		});
 	});
 });

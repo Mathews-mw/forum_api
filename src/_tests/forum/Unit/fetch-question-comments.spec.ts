@@ -17,9 +17,9 @@ describe('Fetch Questions Comments', () => {
 		await questionCommentsRepository.create(makeQuestionComments({ questionId: new UniqueEntityId('question-1') }));
 		await questionCommentsRepository.create(makeQuestionComments({ questionId: new UniqueEntityId('question-1') }));
 
-		const { questionComments } = await fetchQuestionCommentsUseCase.execute({ questionId: 'question-1', page: 1 });
+		const result = await fetchQuestionCommentsUseCase.execute({ questionId: 'question-1', page: 1 });
 
-		expect(questionComments).toHaveLength(3);
+		expect(result.value?.questionComments).toHaveLength(3);
 	});
 
 	it('Should be able to fetch paginate questions comments', async () => {
@@ -27,8 +27,8 @@ describe('Fetch Questions Comments', () => {
 			await questionCommentsRepository.create(makeQuestionComments({ questionId: new UniqueEntityId('question-1') }));
 		}
 
-		const { questionComments } = await fetchQuestionCommentsUseCase.execute({ questionId: 'question-1', page: 2 });
+		const result = await fetchQuestionCommentsUseCase.execute({ questionId: 'question-1', page: 2 });
 
-		expect(questionComments).toHaveLength(2);
+		expect(result.value?.questionComments).toHaveLength(2);
 	});
 });

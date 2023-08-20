@@ -5,14 +5,14 @@ import { InMemoryQuestionRepository } from '../in-memory/in-memory-question-repo
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question-use-case';
 import { InMemoryQestionAttachmentsRepository } from '../in-memory/in-memory-question-attachments-repository';
 
+let editQuestionUseCase: EditQuestionUseCase;
 let questionRepository: InMemoryQuestionRepository;
 let questionAttachmentsRepository: InMemoryQestionAttachmentsRepository;
-let editQuestionUseCase: EditQuestionUseCase;
 
 describe('Edit Question', () => {
 	beforeEach(() => {
-		questionRepository = new InMemoryQuestionRepository();
 		questionAttachmentsRepository = new InMemoryQestionAttachmentsRepository();
+		questionRepository = new InMemoryQuestionRepository(questionAttachmentsRepository);
 		editQuestionUseCase = new EditQuestionUseCase(questionRepository, questionAttachmentsRepository);
 	});
 
