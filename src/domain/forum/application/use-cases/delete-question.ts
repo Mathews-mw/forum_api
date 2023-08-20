@@ -1,11 +1,14 @@
+import { Either, failure, success } from '@/core/either';
 import { IQuestionRepository } from '../repositories/implementations/IQuestionRepository';
+import { ResourceNotfounError } from './errors/resource-not-found-error';
+import { NotallowedError } from './errors/not-allowed-error';
 
 interface DeleteQuestionUseCaseRequest {
 	authorId: string;
 	questionId: string;
 }
 
-interface DeleteQuestionUseCaseResponse {}
+type DeleteQuestionUseCaseResponse = Either<ResourceNotfounError | NotallowedError, {}>;
 
 export class DeleteQuestionUseCase {
 	constructor(private questionRepository: IQuestionRepository) {}
@@ -14,15 +17,15 @@ export class DeleteQuestionUseCase {
 		const question = await this.questionRepository.findById(questionId);
 
 		if (!question) {
-			throw new Error('Question not found.');
+			return failure(new ResourceNotfounError());
 		}
 
 		if (authorId !== question.authorId.toString()) {
-			throw new Error('Not allowed');
+			return failure(new NotallowedError());
 		}
 
 		await this.questionRepository.delete(question);
 
-		return {};
+		return success({});
 	}
 }
