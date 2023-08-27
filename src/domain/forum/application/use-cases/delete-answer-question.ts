@@ -1,7 +1,7 @@
 import { Either, success } from '@/core/either';
 import { IAnswerCommentsRepository } from '../repositories/implementations/IAnswerCommentsRepository';
 import { ResourceNotfounError } from './errors/resource-not-found-error';
-import { NotallowedError } from './errors/not-allowed-error';
+import { NotallowedError } from '../../../../core/errors/not-allowed-error';
 
 interface DeleteAnswerCommentUseCaseRequest {
 	authorId: string;

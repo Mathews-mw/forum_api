@@ -3,7 +3,7 @@ import { Question } from '../../enterprise/entities/question';
 import { IAnswerRepository } from '../repositories/implementations/IAnswerRepository';
 import { IQuestionRepository } from '../repositories/implementations/IQuestionRepository';
 import { ResourceNotfounError } from './errors/resource-not-found-error';
-import { NotallowedError } from './errors/not-allowed-error';
+import { NotallowedError } from '../../../../core/errors/not-allowed-error';
 
 interface ChooseQuestionBestAnswerUseCaseRequest {
 	authorId: string;

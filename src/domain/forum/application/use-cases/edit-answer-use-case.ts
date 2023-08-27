@@ -1,6 +1,6 @@
 import { Either, failure, success } from '@/core/either';
 import { Answer } from '../../enterprise/entities/answer';
-import { NotallowedError } from './errors/not-allowed-error';
+import { NotallowedError } from '../../../../core/errors/not-allowed-error';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { ResourceNotfounError } from './errors/resource-not-found-error';
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment';

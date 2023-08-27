@@ -1,7 +1,7 @@
 import { Either, failure, success } from '@/core/either';
 import { IAnswerRepository } from '../repositories/implementations/IAnswerRepository';
 import { ResourceNotfounError } from './errors/resource-not-found-error';
-import { NotallowedError } from './errors/not-allowed-error';
+import { NotallowedError } from '../../../../core/errors/not-allowed-error';
 
 interface DeleteAnswerUseCaseRequest {
 	authorId: string;

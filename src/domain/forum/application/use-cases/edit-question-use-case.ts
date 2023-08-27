@@ -2,7 +2,7 @@ import { Either, failure, success } from '@/core/either';
 import { Question } from '../../enterprise/entities/question';
 import { IQuestionRepository } from '../repositories/implementations/IQuestionRepository';
 import { ResourceNotfounError } from './errors/resource-not-found-error';
-import { NotallowedError } from './errors/not-allowed-error';
+import { NotallowedError } from '../../../../core/errors/not-allowed-error';
 import { IQuestionAttchmentsRepository } from '../repositories/implementations/IQuestionAttchmentsRepository';
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list';
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment';
